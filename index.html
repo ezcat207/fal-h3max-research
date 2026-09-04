@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAL H3 Max 深度调研 · 一个创业者的第一性原理拆解</title>
+<meta name="description" content="FAL H3 Max 视频模型的核心区别、第一性原理、舆情、谁在用它做商业、商业模式与成本盈亏测算——用精益创业的方式为自己的产品做准备。">
+<style>
+:root{
+  --bg:#0b0d10; --bg2:#111419; --card:#151a21; --card2:#1a212b;
+  --line:#232b36; --line2:#2e3947;
+  --tx:#e7edf5; --tx2:#a7b3c2; --tx3:#6f7d8f;
+  --accent:#5eead4; --accent2:#7dd3fc; --warn:#fbbf24; --bad:#fb7185; --good:#4ade80;
+  --maxw:1080px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+@media (prefers-color-scheme:light){
+  :root{ --bg:#f7f9fb; --bg2:#eef2f6; --card:#ffffff; --card2:#f3f6f9;
+    --line:#e2e8f0; --line2:#cbd5e1; --tx:#0f172a; --tx2:#475569; --tx3:#94a3b8;
+    --accent:#0d9488; --accent2:#0284c7; --warn:#b45309; --bad:#e11d48; --good:#16a34a; }
+}
+:root[data-theme="dark"]{ --bg:#0b0d10; --bg2:#111419; --card:#151a21; --card2:#1a212b;
+  --line:#232b36; --line2:#2e3947; --tx:#e7edf5; --tx2:#a7b3c2; --tx3:#6f7d8f;
+  --accent:#5eead4; --accent2:#7dd3fc; --warn:#fbbf24; --bad:#fb7185; --good:#4ade80; }
+:root[data-theme="light"]{ --bg:#f7f9fb; --bg2:#eef2f6; --card:#ffffff; --card2:#f3f6f9;
+  --line:#e2e8f0; --line2:#cbd5e1; --tx:#0f172a; --tx2:#475569; --tx3:#94a3b8;
+  --accent:#0d9488; --accent2:#0284c7; --warn:#b45309; --bad:#e11d48; --good:#16a34a; }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.7;
+  -webkit-font-smoothing:antialiased;font-size:16px}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:56px}
+nav .brand{font-weight:700;letter-spacing:.5px;white-space:nowrap}
+nav .brand span{color:var(--accent)}
+nav .links{display:flex;gap:14px;overflow-x:auto;font-size:13.5px;color:var(--tx2);
+  scrollbar-width:none}
+nav .links::-webkit-scrollbar{display:none}
+nav .links a{color:var(--tx2);white-space:nowrap}
+nav .links a:hover{color:var(--tx);text-decoration:none}
+.theme-btn{margin-left:auto;background:var(--card);border:1px solid var(--line2);color:var(--tx2);
+  border-radius:8px;padding:5px 10px;font-size:13px;cursor:pointer;white-space:nowrap}
+
+/* hero */
+header.hero{padding:72px 0 48px;border-bottom:1px solid var(--line);
+  background:radial-gradient(1200px 400px at 20% -10%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 70%)}
+.tag{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:1px;
+  color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
+  padding:4px 10px;border-radius:99px;margin-bottom:20px}
+h1{font-size:clamp(30px,5vw,50px);line-height:1.12;margin:0 0 18px;letter-spacing:-.5px}
+h1 .hl{background:linear-gradient(120deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(16px,2.2vw,19px);color:var(--tx2);max-width:760px}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{font-size:12.5px;color:var(--tx2);background:var(--card);border:1px solid var(--line);
+  border-radius:99px;padding:5px 12px}
+.chip b{color:var(--tx)}
+
+/* sections */
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
+h2{font-size:clamp(23px,3.4vw,32px);margin:8px 0 6px;letter-spacing:-.3px}
+.sub{color:var(--tx2);margin:0 0 26px;max-width:760px}
+h3{font-size:18px;margin:30px 0 10px}
+p{color:var(--tx2)}
+.lead-tx{color:var(--tx)}
+
+/* cards + grid */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h4{margin:0 0 8px;font-size:15.5px;color:var(--tx)}
+.card p{margin:0;font-size:14px}
+.card .big{font-size:30px;font-weight:750;color:var(--tx);letter-spacing:-.5px;font-family:var(--mono)}
+.card .big.acc{color:var(--accent)}
+.card .lbl{font-size:12px;color:var(--tx3);text-transform:uppercase;letter-spacing:1px}
+
+/* callouts */
+.note{border-left:3px solid var(--warn);background:color-mix(in srgb,var(--warn) 9%,transparent);
+  padding:12px 16px;border-radius:0 10px 10px 0;font-size:14px;color:var(--tx2);margin:16px 0}
+.note b{color:var(--warn)}
+.key{border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);
+  padding:14px 16px;border-radius:0 10px 10px 0;color:var(--tx);margin:16px 0}
+
+/* tables */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:18px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{background:var(--card2);color:var(--tx);font-weight:650;position:sticky;top:0}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+td.num{font-family:var(--mono);white-space:nowrap}
+.hl-row{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.pos{color:var(--good)}.neg{color:var(--bad)}.mid{color:var(--warn)}
+
+/* first principles list */
+.fp{counter-reset:fp;display:grid;gap:14px}
+.fp .item{display:flex;gap:16px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:18px 20px}
+.fp .item::before{counter-increment:fp;content:counter(fp,upper-latin);
+  font-family:var(--mono);font-weight:700;color:var(--accent);font-size:18px;
+  min-width:30px;height:30px;display:grid;place-items:center;
+  border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);border-radius:8px;flex:0 0 auto}
+.fp .item h4{margin:2px 0 6px;font-size:15.5px;color:var(--tx)}
+.fp .item p{margin:0;font-size:14px}
+
+/* value chain diagram */
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+@media(max-width:820px){.chain{grid-template-columns:1fr}}
+.node{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;position:relative}
+.node.you{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.node .role{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--tx3);text-transform:uppercase}
+.node .who{font-weight:700;margin:6px 0 4px;color:var(--tx)}
+.node .ex{font-size:12.5px;color:var(--tx2)}
+.node .badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#04211d;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap}
+
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+@media(max-width:820px){.loop{grid-template-columns:1fr 1fr}}
+.loop .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+.loop .step .n{font-family:var(--mono);color:var(--accent);font-size:13px}
+.loop .step .t{font-weight:700;margin:6px 0 4px}
+.loop .step .d{font-size:12.5px;color:var(--tx2)}
+
+ul.clean{list-style:none;padding:0;margin:14px 0;display:grid;gap:9px}
+ul.clean li{padding-left:24px;position:relative;color:var(--tx2);font-size:14.5px}
+ul.clean li::before{content:"→";position:absolute;left:0;color:var(--accent)}
+.pill{display:inline-block;font-size:11px;font-family:var(--mono);padding:2px 7px;border-radius:6px;
+  border:1px solid var(--line2);color:var(--tx2);margin-right:4px}
+.pill.v{border-color:color-mix(in srgb,var(--accent) 50%,transparent);color:var(--accent)}
+.pill.b{border-color:color-mix(in srgb,var(--accent2) 50%,transparent);color:var(--accent2)}
+
+footer{padding:40px 0 70px;color:var(--tx3);font-size:13px}
+footer a{color:var(--tx2)}
+.srcgrid{columns:2;column-gap:26px;font-size:12.5px;color:var(--tx3);margin-top:10px}
+@media(max-width:640px){.srcgrid{columns:1}}
+.disclaimer{font-size:12px;color:var(--tx3);margin-top:16px;font-style:italic}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">FAL <span>H3&nbsp;Max</span> 调研</div>
+    <div class="links">
+      <a href="#diff">核心区别</a>
+      <a href="#fp">第一性原理</a>
+      <a href="#buzz">舆情</a>
+      <a href="#who">谁在用</a>
+      <a href="#biz">商业模式</a>
+      <a href="#cost">成本盈亏</a>
+      <a href="#lean">精益 Spec</a>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()" id="tbtn">◐ 主题</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="tag">FIRST-PRINCIPLES · LEAN STARTUP · 2026-09-04</div>
+    <h1>H3 Max 不是一个更强的模型，<br>而是一场<span class="hl"> 速度 × 价格</span> 的生意</h1>
+    <p class="lede">FAL 把 <b>MiniMax 开源权重的 H3</b> 做了轻量后训练、套上自研推理引擎——把 5 秒 768p 视频压到 <b>~3 秒</b>出片（快于实时），$0.08/秒。护城河不在「训练出更好的模型」，而在<b>「在开源权重之上做全栈推理优化，用延迟×价格竞争」</b>。本站从一个创业者的视角，用第一性原理拆解它，并反推我们自己产品的商业假设。</p>
+    <div class="meta-row">
+      <span class="chip"><b>5 秒片 ~3 秒</b> 出片</span>
+      <span class="chip">满价单条毛利 <b>~92%</b>（基准）</span>
+      <span class="chip">FAL 估值 <b>$4.5B</b> → 传闻 $8B</span>
+      <span class="chip">ARR <b>~$100M</b></span>
+      <span class="chip">跑在 <b>GB200 NVL72</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- 核心区别 -->
+<section id="diff">
+  <div class="wrap">
+    <div class="eyebrow">01 · 核心区别</div>
+    <h2>它和其他模型到底不一样在哪</h2>
+    <p class="sub">一句话：<b class="lead-tx">在有竞争力的画质下，同时做到「快于实时的延迟」和「低价」</b>——靠的是在开源权重上拥有整条推理栈。它不是分辨率最高、不是画质无争议第一、也不是每秒最便宜。它独特的坐标轴是 <b class="lead-tx">延迟 × 价格</b>。</p>
+
+    <div class="grid g3">
+      <div class="card"><div class="lbl">出片速度</div><div class="big acc">~3s</div><p>5 秒 768p 片，快于实时。FAL 称 ~35× 官方 MiniMax 端点吞吐（未经独立验证）</p></div>
+      <div class="card"><div class="lbl">分辨率天花板</div><div class="big">768p</div><p>主动封顶（基础 H3 可到 2K/4K）。这是它换速度的方式</p></div>
+      <div class="card"><div class="lbl">价格</div><div class="big">$0.08<span style="font-size:15px;color:var(--tx3)">/秒</span></div><p>首发 14 天 5 折 $0.04/秒；每天前 5 条免费；无订阅</p></div>
+    </div>
+
+    <h3>分工：MiniMax 造基座，FAL 做后训练 + 推理</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>层级</th><th>归属</th><th>做了什么</th></tr></thead>
+        <tbody>
+          <tr><td>基础模型（预训练）</td><td><b>MiniMax</b></td><td>训练并<b>开源权重</b>发布 H3（Hailuo 3.0，~33B 全模态），数千万~数亿美元级投入</td></tr>
+          <tr class="hl-row"><td>后训练</td><td><b>FAL</b></td><td>在开源权重上继续训练，优化提示词遵循 / 美学（深浅未公开）</td></tr>
+          <tr class="hl-row"><td>推理 / 服务</td><td><b>FAL</b></td><td>围绕自研推理引擎协同设计——<b>速度数字的真正来源</b></td></tr>
+          <tr><td>API / 定价</td><td><b>FAL</b></td><td>按量付费、免费额度、限时 5 折</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="key">关键：因为 H3 是<b>开源权重</b>，FAL 拥有预训练之下的<b>全部栈</b>，且<b>不向任何闭源模型持有者付逐次授权费</b>。这是它一切经济优势的前提。</div>
+
+    <h3>与竞品横向对比</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>模型</th><th>~价格/秒</th><th>最高分辨率</th><th>原生音频</th><th>速度姿态</th></tr></thead>
+        <tbody>
+          <tr class="hl-row"><td><b>H3 Max (FAL)</b></td><td class="num">$0.08</td><td>768p</td><td>有(同步)</td><td>5 秒片 ~3s · 快于实时</td></tr>
+          <tr><td>基础 MiniMax H3</td><td class="num">$0.06 / $0.13(2K)</td><td>2K/4K</td><td>有</td><td>比 Max 慢 ~35×</td></tr>
+          <tr><td>Google Veo 3.1</td><td class="num">$0.15–0.75</td><td>4K</td><td>有</td><td>慢·批处理</td></tr>
+          <tr><td>OpenAI Sora 2</td><td class="num">$0.10–0.50</td><td>1080p+</td><td>有</td><td>慢（API 9/24 下线）</td></tr>
+          <tr><td>快手 Kling 3.0</td><td class="num">~$0.03–0.14</td><td>1080p</td><td>部分</td><td>慢·每秒最便宜</td></tr>
+          <tr><td>Wan 3.0</td><td class="num">开源/浮动</td><td>—</td><td>有</td><td>文生视频榜上赢过 H3 Max</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>甄别：</b>H3 Max $0.08/秒<b>比自家基础 H3（$0.06）还贵</b>。它的优势不是「每输出秒的美元」，而是「每墙钟秒的吞吐」。且「#1 画质」仅在<b>图生视频</b>成立——Artificial Analysis <b>文生视频</b>榜上它只排第 3（输给 Wan 3.0 / Gemini）。35×、15×、&lt;3s 均为 FAL 自报、尚无独立验证。</div>
+  </div>
+</section>
+
+<!-- 第一性原理 -->
+<section id="fp">
+  <div class="wrap">
+    <div class="eyebrow">02 · 第一性原理</div>
+    <h2>为什么 FAL 能这么干</h2>
+    <p class="sub">把这件事拆到不可再拆的底层，会看到一个自洽的结构：一家推理公司，在开源权重之上，用「服务优化」而非「预训练」竞争。</p>
+    <div class="fp">
+      <div class="item"><div><h4>开源权重，抽掉了「训练护城河的收租人」</h4><p>预训练前沿视频模型要数千万~数亿美元。MiniMax 付了并开源。FAL 以<b>零边际授权成本</b>拿到前沿基座，独吞 GPU 成本与售价之间的全部差价。这是一切的经济前提。</p></div></div>
+      <div class="item"><div><h4>FAL 的核心能力是推理，不是预训练</h4><p>它是服务/推理公司（~4 年引擎积累），不去和 Google 拼预训练，而是在足够好的基座上，把「服务」做到全行业最优。「35× 官方端点」= 它的服务栈远优于 MiniMax 的参考部署。</p></div></div>
+      <div class="item"><div><h4>「快于实时」是产品体验的相变阈值，不只是数字</h4><p>一旦 5 秒片 &lt;5 秒渲完，延迟就从<b>离线批处理</b>跨进<b>交互/近实时</b>——解锁交互视频、实时虚拟人、无限直播等此前不可能的品类。价值不是「更快」，而是「一整类新应用变得可造」。</p></div></div>
+      <div class="item"><div><h4>后训练是通往前沿画质的廉价捷径</h4><p>不做 &gt;$1 亿预训练，只花极小的「继续训练 + RL」预算补齐美学。Design Arena 上 Max(Elo 1341) 与基础 H3(1333) <b>几乎打平</b>——反证后训练是「廉价打磨」，真正交付物是速度。</p></div></div>
+      <div class="item"><div><h4>底层约束：为什么是 768p</h4><p>算力 ≈ 分辨率×帧率×时长×扩散步数×GPU成本。2K→768p 砍掉 4–7× 像素，余量换成「更快」（更少扩散步）。<b>768p 天花板就是「快于实时」的代价</b>——没有免费午餐。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 舆情 -->
+<section id="buzz">
+  <div class="wrap">
+    <div class="eyebrow">03 · 网上讨论</div>
+    <h2>舆情：为速度叫好，对「#1」存疑</h2>
+    <p class="sub">真正的病毒时刻不是模型本身，而是接上直播做的「无限视频」——但那恰恰暴露了它当下的商业软肋。</p>
+    <div class="grid g3">
+      <div class="card"><h4 style="color:var(--good)">✓ 正面</h4>
+        <p><b>Ethan Mollick：</b>「能在你看完之前生成合理质量的视频」，称跨越「无限视频奇点」。<br><br><b>@levelsio：</b>「AI 视频非常历史性的一刻。」<br><br><b>Julian Goldie：</b>本月「最可用的快速视频模型」，盛赞免费额度够跑 faceless 实验。</p></div>
+      <div class="card"><h4 style="color:var(--bad)">✕ 质疑</h4>
+        <p><b>「#1 是厂商自报」</b>——独立验证稀薄。<br><br><b>画质是「slop」</b>——连吹捧者都承认：「无剧情、低质、RL 调味的乱炖」。<br><br><b>768p 天花板</b>：够社媒，不够电影。<br><br>无首方技术报告 / 安全评测。</p></div>
+      <div class="card"><h4 style="color:var(--accent)">⚡ 病毒引擎</h4>
+        <p>Rehan Sheikh 接 Twitch 直播 → <b>575 万浏览</b>。被平台踢后 FAL 上线自家 <b>fal.live</b>（H3 Max Director）。<br><br>levelsio 造 <b>Infinite Slop</b>：首日 3.7 万观众。但关键：<b>「跑这个很贵，@fal 慷慨赞助」</b>——没有原生商业模式。</p></div>
+    </div>
+    <div class="note"><b>创业者读法：</b>「无限视频」是最大的新玩法，也是<b>单元经济尚不成立</b>的炒作前沿——没有后端赞助算力就跑不通。别把 fal.live 的经济当可行模型建模。</div>
+  </div>
+</section>
+
+<!-- 谁在用 -->
+<section id="who">
+  <div class="wrap">
+    <div class="eyebrow">04 · 谁在用它做商业</div>
+    <h2>「卖铲子的军火商」与它的客户</h2>
+    <p class="sub">FAL 自报 300 万+ 开发者、5000 万+ 创作/天。它作为「模型广度 + 速度」后端，赢在横向创意套件与多模型聚合器。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>公司</th><th>做什么</th><th>FAL 后端？</th><th>生成核心度</th></tr></thead>
+        <tbody>
+          <tr class="hl-row"><td><b>Quora / Poe</b></td><td>多模型聚合</td><td class="pos">已证实</td><td>核心（~40–50% 官方 bot）</td></tr>
+          <tr class="hl-row"><td><b>Hedra</b></td><td>角色/虚拟人视频</td><td class="pos">已证实</td><td>高（第三方生成全走 FAL）</td></tr>
+          <tr><td>Canva</td><td>设计套件</td><td class="pos">已证实</td><td>功能级·体量巨大</td></tr>
+          <tr><td>Perplexity</td><td>答案引擎+生成</td><td class="pos">已证实</td><td>增长中</td></tr>
+          <tr><td>Krea</td><td>创意套件·实时生成</td><td class="pos">已证实</td><td>生成即产品</td></tr>
+          <tr><td>Freepik</td><td>素材+AI（合出 F-Lite）</td><td class="pos">已证实</td><td>高</td></tr>
+          <tr><td>Adobe / Shopify / Genspark</td><td>创意云/电商/agent</td><td class="pos">已证实</td><td>功能级</td></tr>
+          <tr><td>Icon / Captions / Viggle</td><td>AI 广告 / 编辑 / 角色动作</td><td class="mid">未证实</td><td>生成即产品</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>价值链：利润正从「模型层」流向「推理层 + 分发层」</h3>
+    <div class="chain">
+      <div class="node"><div class="role">模型实验室</div><div class="who">权重 + 研究</div><div class="ex">MiniMax(H3)<br>Black Forest(FLUX)<br>Google/Kling/Wan</div></div>
+      <div class="node you"><div class="badge">研究对象</div><div class="role">推理层 / 军火商</div><div class="who">FAL</div><div class="ex">托管·优化·服务·计费<br>Replicate / Together<br>Baseten / Modal</div></div>
+      <div class="node"><div class="role">消费级应用</div><div class="who">UX + 分发</div><div class="ex">Krea / Hedra / Poe<br>Icon / faceless 内容厂<br>UGC 广告工具</div></div>
+      <div class="node"><div class="role">终端用户</div><div class="who">创作者 / 品牌</div><div class="ex">创作者·营销·品牌方</div></div>
+    </div>
+    <div class="note"><b>H3 Max = FAL 向下爬栈：</b>它现在既<b>后训练自己的模型</b>，又<b>运营消费级阵地 fal.live</b>——军火商开始卖成品武器，并<b>和自己的客户抢生意</b>。若你的应用依赖 FAL，这是必读的竞争情报。</div>
+  </div>
+</section>
+
+<!-- 商业模式 -->
+<section id="biz">
+  <div class="wrap">
+    <div class="eyebrow">05 · 商业模式</div>
+    <h2>按量付费的推理引擎，18 个月冲到 ~$100M ARR</h2>
+    <p class="sub">在一个 API 后面托管 600+ 生成模型，两种计价：按产出（每图/每视频秒）走量，裸 GPU 计价给企业。护城河是 4 年自研、专攻扩散模型的推理引擎——同时带来速度与毛利。</p>
+    <div class="grid g4">
+      <div class="card"><div class="lbl">2024-07 ARR</div><div class="big">~$2M</div></div>
+      <div class="card"><div class="lbl">2025-07 跑率</div><div class="big acc">~$95M</div></div>
+      <div class="card"><div class="lbl">Series C 估值</div><div class="big">$1.5B</div><p class="lbl" style="margin-top:6px">2025-07 Meritech</p></div>
+      <div class="card"><div class="lbl">2025-12 估值</div><div class="big acc">$4.5B</div><p class="lbl" style="margin-top:6px">Sequoia 领投 · 传闻→$8B</p></div>
+    </div>
+    <h3>直接竞争对手</h3>
+    <ul class="clean">
+      <li><b>Replicate</b>——模型最全（5万+），2026 并入 Cloudflare，转向边缘/基础设施</li>
+      <li><b>Together AI</b>——开源 LLM 推理，token 单价最优；~$1B+ ARR</li>
+      <li><b>Baseten / Modal / Runpod</b>——企业部署 / Python serverless / 裸 GPU</li>
+      <li><b>Fireworks / WaveSpeed / Atlas</b>——挑战者，明打「FAL 平替」，拼价格与速度</li>
+    </ul>
+    <h3>建立在「快+便宜视频」上的耐用玩法</h3>
+    <div class="grid g2">
+      <div class="card"><h4>① Faceless 内容工厂 <span class="pill v">可变现</span></h4><p>AI 写→配音→画面→字幕→自动发，靠创作者激励/广告分成/联盟变现。H3 Max 免费额度被明确推荐为入口。</p></div>
+      <div class="card"><h4>② UGC / 效果广告生成器 <span class="pill v">可变现</span></h4><p>商品→虚拟人口播广告，海量 A/B 变体投 TikTok/Meta。玩家：Icon、Arcads、Creatify。</p></div>
+      <div class="card"><h4>③ 虚拟人 / 口播 SaaS <span class="pill v">可变现</span></h4><p>Hedra、Captions；FAL 卖零件（Lipsync 2.0、音效），应用方拼装。</p></div>
+      <div class="card"><h4>④ 实时 / 无限 / 交互视频 <span class="pill b">炒作前沿</span></h4><p>聊天导演的无限直播。目前是注意力玩法，<b>需赞助算力</b>，单元经济尚不成立。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 成本盈亏 -->
+<section id="cost">
+  <div class="wrap">
+    <div class="eyebrow">06 · 成本与盈亏</div>
+    <h2>赚还是亏？满价单条几乎稳赚</h2>
+    <p class="sub">满价单条 H3 Max 在<b class="lead-tx">任何情景下都单位毛利为正</b>（~56% 悲观 → &gt;99% 乐观，基准 ~92%）。免费 5 条/天与 5 折是<b class="lead-tx">刻意的获客补贴</b>，而非低于成本倾销——因为底层单条成本只有几美分。</p>
+
+    <div class="grid g3">
+      <div class="card"><div class="lbl">满价 5 秒片售价</div><div class="big">$0.40</div><p>$0.08/秒 × 5s</p></div>
+      <div class="card"><div class="lbl">基准单条成本</div><div class="big">$0.031</div><p>$6/卡·时 × 12 GPU-s ÷ 65% 利用率</p></div>
+      <div class="card"><div class="lbl">基准满价毛利</div><div class="big acc">92%</div><p>悲观 56% · 乐观 &gt;99%</p></div>
+    </div>
+
+    <h3>每 5 秒片 P&amp;L（成本情景 × 定价档）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>成本情景</th><th>满价 $0.40</th><th>促销 $0.20</th><th>免费 $0</th></tr></thead>
+        <tbody>
+          <tr><td>乐观（$0.0028/条）</td><td class="pos">+$0.397 · 99.3%</td><td class="pos">+$0.197 · 98.6%</td><td class="neg">−$0.003</td></tr>
+          <tr class="hl-row"><td><b>基准（$0.031/条）</b></td><td class="pos">+$0.369 · 92.3%</td><td class="pos">+$0.169 · 84.6%</td><td class="neg">−$0.031</td></tr>
+          <tr><td>悲观（$0.175/条）</td><td class="pos">+$0.225 · 56.3%</td><td class="mid">+$0.025 · 12.5%</td><td class="neg">−$0.175</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="clean">
+      <li><b>满价：每情景都赚</b>——最悲观也有 ~56% 毛利。</li>
+      <li><b>促销：仍很正</b>（基准/乐观 85–99%）；只有悲观角落压到 ~12%（近盈亏平衡），是削毛利不是亏本。</li>
+      <li><b>免费档：纯成本</b>。基准下 10 万日活跑满 ≈ $1.5 万/天（~$550 万/年）——真实但有界的 CAC 线。</li>
+    </ul>
+
+    <div class="key"><b>为什么后训练开源、不授权闭源：</b>授权闭源=每次调用付批发费→永久 COGS 下限 + 毛利上限（Together/Groq 的转售陷阱，~40–50% 毛利）。后训练<b>开源</b>=零边际授权费，独吞售价与可控成本的全部差额。<b>这就是 FAL 能在同硬件上跑 55–99% 毛利、而付授权费的对手做不到的结构性原因。</b></div>
+    <div class="note"><b>最该去挖的一个数字：</b>每次生成的 GPU-秒（并行 GPU 数 × 墙钟时间）。FAL 从未公开——56%–99% 的毛利带全吊在它身上。硬件基线：H3 Max 跑在 <b>NVIDIA GB200 NVL72</b>（成本口径按 Blackwell，非 H100）。</div>
+  </div>
+</section>
+
+<!-- 精益 spec -->
+<section id="lean">
+  <div class="wrap">
+    <div class="eyebrow">07 · 为我们自己</div>
+    <h2>精益创业 Spec：反推我们的商业假设</h2>
+    <p class="sub">调研不是终点。把 FAL 案例当作我们下一个产品的输入，用「价值假设 / 商业假设 → 验证循环」逐条验证。下面是活文档的骨架（完整版见仓库 <code>docs/lean-spec.md</code>）。</p>
+
+    <div class="loop">
+      <div class="step"><div class="n">01</div><div class="t">假设</div><div class="d">价值假设 + 商业假设，写成可证伪句 + 数字阈值</div></div>
+      <div class="step"><div class="n">02</div><div class="t">构建</div><div class="d">最便宜的验证实验（假门 / concierge MVP）</div></div>
+      <div class="step"><div class="n">03</div><div class="t">测量</div><div class="d">预先定义的成功指标与阈值</div></div>
+      <div class="step"><div class="n">04</div><div class="t">认知</div><div class="d">坚持 or 转向 → 修正假设，回到 01</div></div>
+    </div>
+
+    <h3>从案例提炼、已影响我们方向的市场事实</h3>
+    <ul class="clean">
+      <li>模型正在<b>商品化</b> → 别赌「拥有更好的模型」，模型不是护城河</li>
+      <li>利润流向<b>推理/工作流层 + 分发/品牌层</b> → 我们占工作流 + 分发，不做纯转售</li>
+      <li>推理是<b>真高毛利</b>（~92%）→ 应用层真正的成本是获客与留存，不是 COGS</li>
+      <li>FAL 正<b>向下抢生意</b> → 不能被单一后端锁定，差异化不能只是套壳</li>
+    </ul>
+
+    <h3>待验证假设登记表（按「错了会死」排序，先验证最危险的）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>ID</th><th>假设（可证伪）</th><th>类型</th><th>成功阈值</th><th>最便宜的验证</th></tr></thead>
+        <tbody>
+          <tr class="hl-row"><td class="num">A1</td><td>目标用户愿为「批量视频工作流」付费</td><td><span class="pill v">价值</span></td><td>10 人里 ≥3 承诺付费/预付</td><td>15 访谈 + 假门落地页</td></tr>
+          <tr class="hl-row"><td class="num">A3</td><td>CAC 可控（有非付费获客渠道）</td><td><span class="pill b">商业</span></td><td>CAC ≤ LTV/3</td><td>一条内容渠道跑 4 周</td></tr>
+          <tr><td class="num">A2</td><td>工作流把制作时间降到「值得付费」</td><td><span class="pill v">价值</span></td><td>时间降 ≥70%</td><td>concierge MVP（人肉帮 5 人做）</td></tr>
+          <tr><td class="num">A4</td><td>生成质量在我们场景够用（768p/slop 不致命）</td><td><span class="pill v">价值</span></td><td>成片可用率 ≥60%</td><td>真实 brief 跑 50 条盲评</td></tr>
+          <tr><td class="num">A5</td><td>单元经济为正</td><td><span class="pill b">商业</span></td><td>毛利 ≥60%，回收 ≤12 月</td><td>用真实 COGS+定价建模</td></tr>
+          <tr><td class="num">A6</td><td>不被单一后端锁定</td><td><span class="pill b">商业</span></td><td>≥2 家供应商切换 ≤2 周</td><td>技术 spike：双后端跑同 prompt</td></tr>
+          <tr><td class="num">A7</td><td>后端向下抢生意吃不掉我们（有独占层）</td><td><span class="pill b">商业</span></td><td>说清 FAL 做不了/不愿做的那部分</td><td>威胁分析一页纸</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key"><b>Cycle 1 认知：</b>方向从「做模型/套壳」<b>转向</b>「做窄场景工作流 + 独占分发」；不做纯按秒转售，改<b>结果/工作流计费</b>。<b>下一轮（Cycle 2）先验证 A1 + A3</b>：有没有人愿意付钱 + 获客烧不烧得起。</div>
+
+    <h3>待创业者拍板的开放问题</h3>
+    <ul class="clean">
+      <li>切哪个窄场景？（跨境电商广告 / faceless 频道 / 虚拟人口播 / 本地商家营销）</li>
+      <li>面向哪类用户？收费形态（订阅 / 按产出 / 按效果分成）？</li>
+      <li>我们的<b>独占层</b>是什么？（独占分发 / 私有数据 / 行业 know-how / 集成生态）</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>本报告全部关键数字均标注来源，并区分「FAL 官方营销口径」与「第三方独立验证」。完整正文见仓库 <code>docs/research.md</code>，精益 spec 见 <code>docs/lean-spec.md</code>。</p>
+    <div class="srcgrid">
+      <div>官方：blog.fal.ai · fal.ai/minimax-h3-max · prnewswire</div>
+      <div>榜单：artificialanalysis.ai · Design Arena</div>
+      <div>舆情：latent.space · juliangoldie.com · infinite-slop.com</div>
+      <div>客户：fal.ai/customer-case · krea.ai · icon.com</div>
+      <div>融资：sacra.com · techcrunch · bloomberg · getlatka</div>
+      <div>GPU 价格：intuitionlabs.ai · spheron.network · deploybase.ai</div>
+    </div>
+    <p class="disclaimer">调研截至 2026-09-04。GPU 价格与竞品定价波动大，成本模型的最大不确定性是「每次生成的 GPU 并行数」（FAL 未公开）。厂商声明（35×/#1/&lt;3s）尚无独立验证，应作「待验证假设」处理。</p>
+  </div>
+</footer>
+
+<script>
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);
+  try{localStorage.setItem('h3max-theme',t)}catch(e){}
+  document.getElementById('tbtn').textContent = t==='dark'?'☀ 亮色':'☾ 暗色';}
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme');
+  applyTheme(c==='dark'?'light':'dark');}
+(function(){var s;try{s=localStorage.getItem('h3max-theme')}catch(e){}
+  var d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;
+  applyTheme(s|| (d?'dark':'light'));})();
+</script>
+</body>
+</html>
