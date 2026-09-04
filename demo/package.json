@@ -1,0 +1,14 @@
+{
+  "name": "h3max-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "最小可跑 demo：验证 fal H3 Max API 能否打通（文生视频）",
+  "scripts": {
+    "probe": "node probe.mjs",
+    "generate": "node generate.mjs"
+  },
+  "dependencies": {
+    "@fal-ai/client": "^1.10.1"
+  }
+}

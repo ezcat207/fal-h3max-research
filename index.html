@@ -164,6 +164,7 @@ footer a{color:var(--tx2)}
       <a href="#lean">精益 Spec</a>
       <a href="#scen">候选场景</a>
       <a href="#realtime">实时视频新玩法</a>
+      <a href="#validate">验证方案</a>
     </div>
     <button class="theme-btn" onclick="toggleTheme()" id="tbtn">◐ 主题</button>
   </div>
@@ -509,6 +510,48 @@ footer a{color:var(--tx2)}
     <div class="note"><b>验证纪律：</b>① 先验「人格能否留住人」（最危险，先做）→ ② 再验「留住的人愿不愿付费」→ ③ 最后才谈规模化（规模化前必须先确认单位经济，否则=放大亏损）。<b>成本纪律：</b>要么砍成本一个数量级（仅互动时生成/缓存复用/更小模型），要么走高 ARPU——至少占一条。</div>
 
     <div class="key"><b>建议定位（写进精益 spec）：</b>做「有固定人格、能实时互动、有粉丝社群、会带货的 AI 虚拟主播」。<b>Cycle 2 先验最危险假设 RA-1（留存）：</b>搭 1 个人格 AI 主播，在 1 个平台跑 2 周，看次日回访 ≥15%、自发的回头客/取名/玩梗。<b>要避开的坑：</b>❌ 免费大众无限直播当主模式 ❌ 把观众数当成功指标 ❌ 被单一后端锁定。</div>
+  </div>
+</section>
+
+<!-- 美国验证方案 + demo -->
+<section id="validate">
+  <div class="wrap">
+    <div class="eyebrow">10 · 美国验证 · Demo</div>
+    <h2>把 P1/P2/P3 拼成一台引擎，然后验证它</h2>
+    <p class="sub">P1/P2/P3 不是三个赌注，是<b class="lead-tx">同一台引擎（人格 + 实时 AI 视频 + 社群）</b>的三种变现、按风险顺序展开。完整方案见 <code>docs/us-validation.md</code>。</p>
+
+    <div class="chain" style="grid-template-columns:repeat(3,1fr)">
+      <div class="node you"><div class="badge">楔子·拉新</div><div class="role">P1 AI VTuber</div><div class="who">免费公开·蹭热点</div><div class="ex">验证「人格能否留住人」<br>Twitch subs/bits · YT superchat</div></div>
+      <div class="node"><div class="role">P2 陪伴/关系</div><div class="who">高 ARPU·已验证</div><div class="ex">同一人格的深度关系<br>订阅 + 高价私密档</div></div>
+      <div class="node"><div class="role">P3 品牌/IP 定制</div><div class="who">B2B 放大</div><div class="ex">把人格引擎卖给品牌<br>定制费 + 月度托管</div></div>
+    </div>
+    <div class="key"><b>一句话商业模式：</b>用免费的 AI VTuber(P1) 拉新并证明人格 → 把粉丝转化为付费陪伴/会员(P2) → 把整套人格引擎作为服务卖给品牌(P3)。三者共用人格资产、社群、技术栈，<b>验证一个就为下一个铺路</b>。美国钱袋子=订阅+打赏+品牌（非中国式打赏带货）。</div>
+
+    <h3>成本纪律：绝不做 24/7 连续流</h3>
+    <div class="grid g2">
+      <div class="card"><h4 style="color:var(--bad)">✕ 会烧死</h4><p>24/7 连续生成（一条流 ~$4k/天）· 每秒都在生成 · 768P 追清晰 · 全自动导演</p></div>
+      <div class="card"><h4 style="color:var(--good)">✓ 验证做法</h4><p>定时开播（每天 30–60 分）· <b>事件驱动生成</b>（只在弹幕/打赏/节点时生成）· 480P · <b>concierge 人肉导演</b></p></div>
+    </div>
+
+    <h3>预算三档（美国）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>档</th><th>周期</th><th>算力</th><th>拉新广告</th><th>合计</th><th>结论</th></tr></thead>
+        <tbody>
+          <tr class="hl-row"><td><b>A 极简验证</b></td><td>2 周·14 场×30分</td><td class="num">~$300</td><td class="num">$300</td><td class="num pos"><b>~$700–1k</b></td><td>RA-1 方向性信号</td></tr>
+          <tr><td>B 信号</td><td>3–4 周</td><td class="num">~$900</td><td class="num">$800</td><td class="num">~$2–3k</td><td>RA-1 达阈 + A/B 人格</td></tr>
+          <tr><td>C 定论</td><td>4–6 周·多平台</td><td class="num">~$1,800</td><td class="num">$1,500</td><td class="num">~$5–8k</td><td>RA-1 确认 + RA-2 付费跑通</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:6px"><b>建议先做 A 档（~$1k）</b>，只验最危险的 RA-1（人格能否留住人）：次日回访 ≥15% + 出现自发取名/玩梗/「昨天那只猫呢」。信号正向再加钱。</p>
+
+    <h3>Demo：fal H3 Max API 已打通</h3>
+    <div class="grid g3">
+      <div class="card"><div class="lbl">连通性探测</div><div class="big pos">401</div><p>端点存在·slug 正确·请求结构对，只差有效 FAL_KEY = <b>已打通</b></p></div>
+      <div class="card"><div class="lbl">真调用代码</div><div class="big acc">就绪</div><p><code>demo/generate.mjs</code>（官方 client，480P/5s ~$0.25/片），给 key 即取回 mp4</p></div>
+      <div class="card"><div class="lbl">下一步需要</div><div class="big">FAL_KEY</div><p>你提供后：真生成 + 接「事件驱动生成」最小直播管线</p></div>
+    </div>
   </div>
 </section>
 
