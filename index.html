@@ -162,6 +162,7 @@ footer a{color:var(--tx2)}
       <a href="#biz">商业模式</a>
       <a href="#cost">成本盈亏</a>
       <a href="#lean">精益 Spec</a>
+      <a href="#scen">候选场景</a>
     </div>
     <button class="theme-btn" onclick="toggleTheme()" id="tbtn">◐ 主题</button>
   </div>
@@ -407,9 +408,46 @@ footer a{color:var(--tx2)}
   </div>
 </section>
 
+<!-- 候选场景对比 -->
+<section id="scen">
+  <div class="wrap">
+    <div class="eyebrow">08 · 候选场景对比</div>
+    <h2>4 个候选场景：假设 + 验证实验</h2>
+    <p class="sub">在不预先定方向的前提下，把 4 个候选放到同一张模板下横向比较，用「最危险假设 + 最便宜实验」的方式决定 Cycle 2 押谁。完整一页纸见仓库 <code>docs/scenarios.md</code>。</p>
+
+    <div class="grid g2">
+      <div class="card"><h4>A · 电商 SKU → 批量广告视频 <span class="pill b">B2B SaaS</span></h4>
+        <p><b>最危险假设：</b>商家愿为「成片可投 + 效果闭环」付费，而非自己拼免费额度。<br><b>最便宜实验：</b>假门落地页 + 5 家 concierge 投一周看数据。<br><b>阈值：</b>5 家 ≥3 家续费、CTR 不降、成本降 ≥80%。<br><b>风险：</b>赛道最拥挤，且 FAL 客户上游即可做。</p></div>
+      <div class="card"><h4>B · Faceless 内容工厂 <span class="pill b">创作者</span></h4>
+        <p><b>最危险假设：</b>CAC 可控（靠内容/社区而非投放）。<br><b>最便宜实验：</b>自己跑 2 个真频道 4 周 + 一条内容渠道测 CAC。<br><b>阈值：</b>自然增长 + CAC ≤ LTV/3 + 30 人 waitlist。<br><b>风险：</b>红海 + 低客单 + 高流失，护城河最薄。</p></div>
+      <div class="card"><h4>C · 虚拟人口播 SaaS <span class="pill b">B2B</span></h4>
+        <p><b>最危险假设：</b>在选定垂直里，质量（口型/一致性/768p）够用到替代真人。<br><b>最便宜实验：</b>选 1 垂直，5 家盲评「能不能直接用」。<br><b>阈值：</b>可用率 ≥60%、≥3 家付费、时间降 ≥70%。<br><b>风险：</b>撞 HeyGen/Synthesia，质量门槛最硬。</p></div>
+      <div class="card"><h4>D · 垂直本地商家营销视频 <span class="pill v">独占分发</span></h4>
+        <p><b>最危险假设：</b>能否拿到<b>独占的本地分发</b>（唯一能防红海和后端的东西）。<br><b>最便宜实验：</b>谈 1 个本地渠道伙伴 + 10 家 concierge。<br><b>阈值：</b>≥1 渠道愿共推、10 家 ≥5 家续用。<br><b>风险：</b>单垂直天花板低、地推重。</p></div>
+    </div>
+
+    <h3>横向打分（1–5，加权总分）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>维度（权重）</th><th>A 电商广告</th><th>B Faceless</th><th>C 虚拟人</th><th>D 本地垂直</th></tr></thead>
+        <tbody>
+          <tr><td>需求/付费意愿（.20）</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">3</td></tr>
+          <tr><td>差异化空间（.15）</td><td class="num">2</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+          <tr><td>独占分发（.20）</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">5</td></tr>
+          <tr><td>单元经济（.15）</td><td class="num">4</td><td class="num">2</td><td class="num">5</td><td class="num">3</td></tr>
+          <tr><td>抗后端吃掉（.15）</td><td class="num">3</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+          <tr><td>启动可行性（.15）</td><td class="num">3</td><td class="num">5</td><td class="num">3</td><td class="num">3</td></tr>
+          <tr class="hl-row"><td><b>加权总分</b></td><td class="num"><b>3.40</b></td><td class="num"><b>2.90</b></td><td class="num"><b>3.50</b></td><td class="num pos"><b>3.70</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="key"><b>研判：</b>D（本地垂直）总分最高，胜在<b>独占分发 + 差异化 + 抗被吃</b>——正是「模型商品化后护城河只能在分发/数据/know-how」的结论。C（虚拟人）单元经济最好但撞强品牌。A 需求最强但最拥挤。B 最好启动但最不该做。<br><br><b>建议：</b>不要一次押满。先花 1–2 周只验一件致命的事——<b>渠道可得性</b>（D 能否谈下本地渠道共推 / C 能否锁定盲评垂直）。谁先给出正向信号，就把 Cycle 2 押给谁。<b>C、D 第一梯队，A 次之，B 暂缓。</b></div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    <p>本报告全部关键数字均标注来源，并区分「FAL 官方营销口径」与「第三方独立验证」。完整正文见仓库 <code>docs/research.md</code>，精益 spec 见 <code>docs/lean-spec.md</code>。</p>
+    <p>本报告全部关键数字均标注来源，并区分「FAL 官方营销口径」与「第三方独立验证」。完整正文见 <code>docs/research.md</code>，精益 spec 见 <code>docs/lean-spec.md</code>，候选场景对比见 <code>docs/scenarios.md</code>。</p>
     <div class="srcgrid">
       <div>官方：blog.fal.ai · fal.ai/minimax-h3-max · prnewswire</div>
       <div>榜单：artificialanalysis.ai · Design Arena</div>
