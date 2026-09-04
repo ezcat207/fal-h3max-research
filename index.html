@@ -163,6 +163,7 @@ footer a{color:var(--tx2)}
       <a href="#cost">成本盈亏</a>
       <a href="#lean">精益 Spec</a>
       <a href="#scen">候选场景</a>
+      <a href="#realtime">实时视频新玩法</a>
     </div>
     <button class="theme-btn" onclick="toggleTheme()" id="tbtn">◐ 主题</button>
   </div>
@@ -442,6 +443,72 @@ footer a{color:var(--tx2)}
       </table>
     </div>
     <div class="key"><b>研判：</b>D（本地垂直）总分最高，胜在<b>独占分发 + 差异化 + 抗被吃</b>——正是「模型商品化后护城河只能在分发/数据/know-how」的结论。C（虚拟人）单元经济最好但撞强品牌。A 需求最强但最拥挤。B 最好启动但最不该做。<br><br><b>建议：</b>不要一次押满。先花 1–2 周只验一件致命的事——<b>渠道可得性</b>（D 能否谈下本地渠道共推 / C 能否锁定盲评垂直）。谁先给出正向信号，就把 Cycle 2 押给谁。<b>C、D 第一梯队，A 次之，B 暂缓。</b></div>
+  </div>
+</section>
+
+<!-- 实时/无限 AI 视频新玩法 -->
+<section id="realtime">
+  <div class="wrap">
+    <div class="eyebrow">09 · 实时视频 · 机会窗口</div>
+    <h2>无限 AI 直播：注意力 ≠ 收入</h2>
+    <p class="sub">H3 Max 把视频生成压到「比你看完还快」后，一批实时/无限 AI 直播站在一两周内冒出（infiniteslop.ai、fal.live）。但它们<b class="lead-tx">只解决了漏斗顶端（吸引注意力），没解决底端（可持续变现）</b>。真正的应用层机会：给这个躯壳装上能收钱的灵魂。完整判断见 <code>docs/realtime-plays.md</code>。</p>
+
+    <div class="grid g3">
+      <div class="card"><div class="lbl">Infinite Slop 首日观众</div><div class="big">3.7万</div><p>levelsio 自述、无审计——但<b>收入 = 0</b>（他主动拒绝竞价变现）</p></div>
+      <div class="card"><div class="lbl">一条 24/7 流成本</div><div class="big" style="color:var(--bad)">~$4k<span style="font-size:15px;color:var(--tx3)">/天</span></div><p>零售等值 $10万–20万/月；没 FAL 赞助就烧不起</p></div>
+      <div class="card"><div class="lbl">fal.live 真正在卖的</div><div class="big acc">API</div><p>直播只是橱窗 demo；首两周 Director 75% 折扣是获客钩子</p></div>
+    </div>
+    <div class="note"><b>中心张力：</b>生成成本降到近零，恰恰让「内容」本身更不值钱。<b>纯 AI 生成内容（无人格/互动/社群/稀缺）是最难变现的形态。</b>当前唯一跑通的高 ARPU 变现在相邻赛道——AI 陪伴视频订阅（companion app 2022→2025 增长 ~700%）。</div>
+
+    <h3>行业常识：已被 20 年直播史验证成「默认前提」的假设</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>已成常识</th><th>验证来源</th><th>对「只做应用层」的含义</th></tr></thead>
+        <tbody>
+          <tr><td>C1 纯内容难变现，<b>人格+互动+身份</b>才变现</td><td>JenniCam 有流量难变现；YY/Twitch 加人格才成</td><td>做「AI 版主播」，不做「AI 版电视台」</td></tr>
+          <tr class="hl-row"><td>C5 观众会为<b>非真人的人格/关系</b>付费</td><td>VTuber：Kizuna AI、hololive、A-SOUL</td><td><b>AI 直播最大的绿灯</b>——碳基真人非必需</td></tr>
+          <tr><td>C6 VTuber 的钱大头在<b>周边+授权+带货</b>，非打赏</td><td>Cover FY25：周边 47%／打赏 21%／授权 13%</td><td>终局变现=IP+带货+周边，打赏只是起量</td></tr>
+          <tr><td>C7 变现引擎<b>地域路径依赖</b></td><td>中国=打赏+带货(~电商60%)；美国=订阅+品牌(~5%)</td><td>先选战场，两地用不同钱袋子</td></tr>
+          <tr class="hl-row"><td>C9 <b>免费大众无限直播 = 结构性亏损</b></td><td>Infinite Slop/fal.live 均靠赞助/卖 API</td><td>要么砍成本一个数量级，要么走高 ARPU</td></tr>
+          <tr><td>C10 「这是它最差的时候」= 造基础设施的窗口</td><td>latent.space、levelsio</td><td>早进场做「缺失拼图」，别等成熟</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>直播机制 × 实时 AI 视频：缺的四块拼图</h3>
+    <p class="sub">实时 AI 视频只解决了供给侧（无限内容、无人力、无中之人劳资风险），但默认交付「纯内容」——缺了直播变现的四块拼图：</p>
+    <div class="grid g4">
+      <div class="card"><h4>① 稳定人格</h4><p>打赏/订阅锚定在「这一个角色」。AI 能 24/7 不塌人设、不闹劳资。</p></div>
+      <div class="card"><h4>② 即时互动 <span class="pill v">AI 主场</span></h4><p>「付费→被当场看见」的回路。实时读弹幕当场回应，比真人更快不知疲倦。</p></div>
+      <div class="card"><h4>③ 社群身份</h4><p>榜单/粉丝团/FOMO 靠人群共同在场。产品化，不靠 AI。</p></div>
+      <div class="card"><h4>④ 稀缺事件</h4><p>无限生成天然「不稀缺」→更难变现。用运营造限时事件对冲。</p></div>
+    </div>
+    <div class="key"><b>定位一句话：做「AI 版 VTuber」，不做「AI 版电视台」。</b>把生成视频当躯壳，装回四块拼图去收钱，走 hololive 式变现阶梯（人格+社群 → 打赏/订阅 → 带货+周边+IP），避开免费大众直播的结构性亏损。</div>
+
+    <h3>应用层新玩法（穷举 + 验证视角）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>玩法</th><th>现状</th><th>最危险假设</th><th>变现路径</th><th>评分</th></tr></thead>
+        <tbody>
+          <tr class="hl-row"><td><b>P1 AI VTuber/虚拟主播</b></td><td class="pos">尚无爆款·空位</td><td>观众对 AI 人格产生准社会依恋并持续来</td><td>打赏→订阅→带货→周边</td><td class="num pos"><b>4.3</b></td></tr>
+          <tr class="hl-row"><td><b>P2 AI 陪伴/关系直播</b></td><td class="pos">相邻已跑通订阅</td><td>视频形态留存/付费高到值得做</td><td>订阅+高价视频档（已验证）</td><td class="num pos"><b>4.0</b></td></tr>
+          <tr class="hl-row"><td><b>P3 品牌/IP 定制无限频道</b></td><td class="mid">Creators 计划信号</td><td>品牌愿为「永远在线的 AI 频道」付费</td><td>B2B 定制费+月度托管（高 ARPU）</td><td class="num pos"><b>3.9</b></td></tr>
+          <tr><td>P4 互动叙事/选择型直播</td><td>fal.live 已有·同质化</td><td>观众愿为「影响剧情」付费</td><td>打赏解锁/加权+订阅</td><td class="num">3.4</td></tr>
+          <tr><td>P5 垂直无限频道（助眠/儿童/宠物）</td><td>lofi 模式成熟·AI 版空位</td><td>某垂直愿为「永不重复陪伴」订阅</td><td>订阅+赞助+会员</td><td class="num">3.3</td></tr>
+          <tr><td>P6 免费大众 slop/meme 流</td><td class="neg">已被占·注定烧钱</td><td>免费大众流能变现（史料说不能）</td><td>无清晰路径</td><td class="num neg">2.0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>从「吸引注意力」到「可持续变现」的漏斗</h3>
+    <div class="loop" style="grid-template-columns:repeat(3,1fr)">
+      <div class="step"><div class="n">顶端 · 亏损引流</div><div class="t">吸引注意力</div><div class="d">新奇 AI 直播/病毒片段·蹭热点·免费公开。当获客，不指望它赚钱</div></div>
+      <div class="step"><div class="n">中段 · 锁定</div><div class="t">人格 + 社群</div><div class="d">固定人格+记忆+世界观·粉丝群+榜单+身份·限时事件</div></div>
+      <div class="step"><div class="n">底端 · 高 ARPU</div><div class="t">变现阶梯</div><div class="d">打赏起量 → 订阅稳定 → 带货放大 → IP周边+授权吃大头</div></div>
+    </div>
+    <div class="note"><b>验证纪律：</b>① 先验「人格能否留住人」（最危险，先做）→ ② 再验「留住的人愿不愿付费」→ ③ 最后才谈规模化（规模化前必须先确认单位经济，否则=放大亏损）。<b>成本纪律：</b>要么砍成本一个数量级（仅互动时生成/缓存复用/更小模型），要么走高 ARPU——至少占一条。</div>
+
+    <div class="key"><b>建议定位（写进精益 spec）：</b>做「有固定人格、能实时互动、有粉丝社群、会带货的 AI 虚拟主播」。<b>Cycle 2 先验最危险假设 RA-1（留存）：</b>搭 1 个人格 AI 主播，在 1 个平台跑 2 周，看次日回访 ≥15%、自发的回头客/取名/玩梗。<b>要避开的坑：</b>❌ 免费大众无限直播当主模式 ❌ 把观众数当成功指标 ❌ 被单一后端锁定。</div>
   </div>
 </section>
 
